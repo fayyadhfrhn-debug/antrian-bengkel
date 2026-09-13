@@ -20,11 +20,13 @@
       background-color: #0b1120;
       color: #f1f5f9;
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      padding: 15px 20px 0 20px;
+      /* Memberikan jarak aman (safe zone) 25px dari tepi layar TV agar tidak terpotong overscan */
+      padding: 25px !important;
       display: flex;
       flex-direction: column;
       height: 100vh;
       transition: background 0.5s ease;
+      box-sizing: border-box;
     }
 
     /* TEMA WARNA BACKGROUND HARIAN */
@@ -49,7 +51,7 @@
     body.theme-senin .header h1, body.theme-rabu .header h1, body.theme-sabtu .header h1 { color: #0284c7; }
     body.theme-senin .clock, body.theme-rabu .clock, body.theme-sabtu .clock { color: #0f172a; }
 
-    /* HEADER */
+    /* HEADER LAYOUT */
     .header {
       display: flex;
       justify-content: space-between;
@@ -64,7 +66,7 @@
       gap: 15px;
     }
 
-    /* KONTAINER UTAMA LOGO KOTAK CSS BERANIMASI */
+    /* LOGO 3D ANIMATED */
     .logo-box-animated {
       background-color: #0b1329;
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -78,7 +80,6 @@
       perspective: 1000px;
     }
 
-    /* WADAH UTAMA KELOMPOK LOGO (DIPUTAR BERSAMAAN) */
     .logo-box-wrapper {
       display: flex;
       align-items: center;
@@ -90,7 +91,6 @@
       transform-style: preserve-3d;
     }
 
-    /* DESAIN EMBLEM LINGKARAN LOGO (SVG) */
     .logo-circle-badge {
       width: 32px;
       height: 32px;
@@ -103,12 +103,8 @@
       filter: drop-shadow(0px 2px 4px rgba(239, 68, 68, 0.4));
     }
 
-    .logo-circle-badge svg {
-      width: 100%;
-      height: 100%;
-    }
+    .logo-circle-badge svg { width: 100%; height: 100%; }
 
-    /* WADAH KHUSUS TEKS "SMART SERVICE" DI SEBELAH KANAN */
     .smart-service-group {
       display: flex;
       flex-direction: column;
@@ -118,9 +114,8 @@
       gap: 2px;
     }
 
-    /* UKURAN & WARNA MASING-MASING TEKS */
     .word-toyoga {
-      color: #ef4444; /* Merah TOYOGA */
+      color: #ef4444;
       font-size: 22px;
       font-weight: 900;
       letter-spacing: 0.5px;
@@ -130,7 +125,7 @@
     }
 
     .word-smart {
-      color: #ffffff; /* Putih SMART */
+      color: #ffffff;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.5px;
@@ -140,7 +135,7 @@
     }
 
     .word-service {
-      color: #38bdf8; /* Biru SERVICE */
+      color: #38bdf8;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.5px;
@@ -149,7 +144,6 @@
       animation: animService 10s ease-out infinite;
     }
 
-    /* ANIMASI MUNCUL TAHAP DEMI TAHAP */
     @keyframes animBadge {
       0% { opacity: 0; transform: scale(0) rotate(-180deg); }
       6%, 85% { opacity: 1; transform: scale(1) rotate(0deg); }
@@ -174,7 +168,6 @@
       92%, 100% { opacity: 0; transform: translateY(-15px); }
     }
 
-    /* ANIMASI BERPUTAR 3X */
     @keyframes rotateGroup {
       0%, 45% { transform: rotateY(0deg); }
       75% { transform: rotateY(1080deg); }
@@ -182,10 +175,10 @@
     }
 
     .header h1 {
-      font-size: 20px;
+      font-size: 19px;
       color: #38bdf8;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       font-weight: 800;
       line-height: 1.1;
     }
@@ -193,45 +186,52 @@
     /* SUMMARY BAR */
     .summary-bar {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
       margin-top: 4px;
     }
     .summary-item {
       background: rgba(30, 41, 59, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 2px 8px;
-      border-radius: 14px;
+      padding: 2px 7px;
+      border-radius: 12px;
       font-size: 11px;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       color: #cbd5e1;
     }
     .summary-count {
       background: #38bdf8;
       color: #0f172a;
-      padding: 1px 6px;
-      border-radius: 8px;
-      font-size: 11px;
+      padding: 1px 5px;
+      border-radius: 6px;
+      font-size: 10px;
       font-weight: 800;
     }
 
+    /* HEADER RIGHT RE-DESIGN */
     .header-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
-    
-    .status-koneksi {
-      padding: 5px 12px;
-      border-radius: 16px;
-      font-size: 12px;
-      font-weight: 700;
+
+    .controls-group {
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .status-koneksi {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
     .koneksi-online {
       background-color: rgba(34, 197, 94, 0.15);
@@ -243,7 +243,7 @@
       color: #f87171;
       border: 1px solid #ef4444;
     }
-    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
     .dot-online { background-color: #22c55e; }
     .dot-offline { background-color: #ef4444; }
 
@@ -251,12 +251,48 @@
       background-color: #1e293b;
       color: #38bdf8;
       border: 1px solid #334155;
-      padding: 5px 12px;
-      border-radius: 16px;
-      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
       font-weight: 700;
       display: none;
     }
+
+    .btn-header {
+      background-color: #38bdf8;
+      color: #0b1120;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-header:hover { background-color: #0284c7; color: #fff; }
+
+    /* INTEGRATED TIME & WEATHER BOX */
+    .time-weather-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 5px 12px;
+      border-radius: 10px;
+    }
+
+    .weather-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding-right: 10px;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .weather-icon { font-size: 18px; line-height: 1; }
+    .weather-info { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+    .weather-temp { font-size: 12px; font-weight: 800; color: #38bdf8; }
+    .weather-desc { font-size: 10px; color: #94a3b8; font-weight: 600; }
 
     .datetime-container {
       display: flex;
@@ -264,30 +300,18 @@
       align-items: flex-end;
     }
     .clock {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 18px;
+      font-weight: 800;
       color: #ffffff;
       font-variant-numeric: tabular-nums;
       line-height: 1;
     }
     .date-display {
-      font-size: 12px;
+      font-size: 10px;
       color: #38bdf8;
       font-weight: 600;
       margin-top: 2px;
     }
-
-    .btn-header {
-      background-color: #38bdf8;
-      color: #0b1120;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 12px;
-      cursor: pointer;
-    }
-    .btn-header:hover { background-color: #0284c7; color: #fff; }
 
     /* KONTAINER UTAMA FLEXIBEL */
     .main-container {
@@ -300,7 +324,7 @@
       position: relative;
     }
 
-    /* SISTEM TRANSISI LEMBUT HALAMAN */
+    /* SISTEM TRANSISI HALAMAN */
     .page-content {
       width: 100%;
       height: 100%;
@@ -530,16 +554,17 @@
       padding-top: 4px;
     }
 
-    /* RUNNING TEXT FIXED DI BAGIAN BOTTOM */
+    /* RUNNING TEXT */
     .running-text-container {
-      width: 100vw;
-      margin-left: -20px;
+      width: 100%;
       background-color: #0284c7;
       color: #ffffff;
       padding: 6px 0;
       font-size: 14px;
       font-weight: 600;
       flex-shrink: 0;
+      border-radius: 6px;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -547,11 +572,9 @@
 
   <div class="header">
     <div class="header-left">
-      <!-- LOGO KOTAK CSS BERANIMASI 3D DENGAN EMBLEM LINGKARAN -->
+      <!-- LOGO KOTAK CSS BERANIMASI 3D -->
       <div class="logo-box-animated">
         <div class="logo-box-wrapper">
-          
-          <!-- EMBLEM LINGKARAN LOGO (SVG HIGH RESOLUTION) -->
           <div class="logo-circle-badge">
             <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
@@ -564,25 +587,19 @@
                   <stop offset="100%" stop-color="#fca5a5"/>
                 </linearGradient>
               </defs>
-              <!-- LINGKARAN OUTER & INNER RING -->
               <circle cx="50" cy="50" r="45" fill="#1e293b" stroke="url(#ringGrad)" stroke-width="6"/>
               <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/>
-              <!-- HURUF T ARTISTIK OTOMOTIF -->
               <path d="M25 32 C 25 28, 75 28, 75 32 C 75 36, 58 36, 58 40 L 58 72 C 58 76, 42 76, 42 72 L 42 40 C 42 36, 25 36, 25 32 Z" fill="url(#tGrad)"/>
-              <!-- AKSEN GARIS SERVICE BENGKEL -->
               <path d="M32 70 L22 80 M68 70 L78 80" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
             </svg>
           </div>
 
-          <!-- NAMA TOYOGA -->
           <span class="word-toyoga">TOYOGA</span>
 
-          <!-- SMART & SERVICE TERKUMPUL DI SEBELAH KANAN -->
           <div class="smart-service-group">
             <span class="word-smart">SMART</span>
             <span class="word-service">SERVICE</span>
           </div>
-
         </div>
       </div>
 
@@ -598,17 +615,31 @@
     </div>
 
     <div class="header-right">
-      <div class="status-koneksi koneksi-online" id="status-koneksi">
-        <span class="dot dot-online" id="dot-koneksi"></span>
-        <span id="teks-koneksi">Terhubung</span>
+      <!-- Kelompok Tombol Control & Status -->
+      <div class="controls-group">
+        <div class="status-koneksi koneksi-online" id="status-koneksi">
+          <span class="dot dot-online" id="dot-koneksi"></span>
+          <span id="teks-koneksi">Terhubung</span>
+        </div>
+        <div class="page-indicator" id="page-indicator">Hal 1/1</div>
+        <button class="btn-header" id="btn-fullscreen" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+        <button class="btn-header" id="btn-audio" onclick="toggleAudio()">🔊 Audio</button>
       </div>
-      <div class="page-indicator" id="page-indicator">Hal 1/1</div>
-      <button class="btn-header" id="btn-fullscreen" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-      <button class="btn-header" id="btn-audio" onclick="toggleAudio()">🔊 Aktifkan Suara</button>
-      
-      <div class="datetime-container">
-        <div class="clock" id="jam">00:00:00</div>
-        <div class="date-display" id="tanggal">Senin, 1 Januari 2026</div>
+
+      <!-- Blok Terpadu Cuaca + Jam -->
+      <div class="time-weather-box">
+        <div class="weather-container" id="weather-widget">
+          <span class="weather-icon" id="weather-icon">🌤️</span>
+          <div class="weather-info">
+            <span class="weather-temp" id="weather-temp">--°C</span>
+            <span class="weather-desc" id="weather-desc">Memuat...</span>
+          </div>
+        </div>
+
+        <div class="datetime-container">
+          <div class="clock" id="jam">00:00:00</div>
+          <div class="date-display" id="tanggal">Senin, 1 Jan 2026</div>
+        </div>
       </div>
     </div>
   </div>
@@ -622,14 +653,13 @@
     <!-- Halaman Promo Native -->
     <div class="promo-container page-content" id="promo-container" style="display: none;">
       
-      <!-- PROMO 1: SEPTEMBER CERIA -->
+      <!-- PROMO 1 -->
       <div class="promo-card">
         <div class="promo-header">
           <span class="promo-tag">PROMO BENGKEL</span>
           <h2>SEPTEMBER CERIA</h2>
         </div>
         <div class="promo-body-grid">
-          
           <div class="paket-box">
             <div class="paket-title">PAKET 1</div>
             <ul class="paket-list">
@@ -672,12 +702,11 @@
             <p style="font-size: 12px; font-weight: bold; margin-top: 4px;">CLEANING AC DEPAN</p>
             <div class="paket-price yellow-text" style="margin-top: 8px;">Rp 150.000</div>
           </div>
-
         </div>
         <div class="promo-footer-note">*Harga di atas belum termasuk PPN 11%</div>
       </div>
 
-      <!-- PROMO 2: FLUSHING OLI PTT -->
+      <!-- PROMO 2 -->
       <div class="promo-card">
         <div class="promo-header">
           <span class="promo-tag">PAKET SPESIAL</span>
@@ -727,7 +756,7 @@
   </div>
 
   <script>
-    const webAppUrl = 'https://script.google.com/macros/s/AKfycbysMFJujtOUWD34kGG9ClLIp0bBKT9ZNENcrFMi1t3LNIMMx_a-g227P7PZLtDXMdrC/exec';
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycbyiGbsGCCLlORL2uD8QJFddUESLX9nWMGJ7E4YnTQkYiWvEQITqr2SiQxOYuhwTNhAF/exec';
 
     let previousDataMap = new Map();
     let isAudioActive = false;
@@ -747,6 +776,51 @@
     let totalPages = 1;
     let pageTimer = null;
     let cachedActiveList = [];
+
+    // --- FETCH CUACA OTOMATIS (GEOLOCATION + FALLBACK) ---
+    async function fetchWeather() {
+      // Lokasi cadangan (Bekasi) jika lokasi tidak terdeteksi
+      let defaultLat = -6.2383;
+      let defaultLon = 106.9756;
+
+      const getWeatherByCoords = async (lat, lon) => {
+        try {
+          const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+          const res = await fetch(url);
+          if (!res.ok) return;
+          const data = await res.json();
+          
+          const currentWeather = data.current_weather;
+          const temp = Math.round(currentWeather.temperature);
+          const code = currentWeather.weathercode;
+
+          let desc = 'Cerah';
+          let icon = '☀️';
+
+          if (code === 0) { desc = 'Cerah'; icon = '☀️'; }
+          else if (code >= 1 && code <= 3) { desc = 'Berawan'; icon = '🌤️'; }
+          else if (code === 45 || code === 48) { desc = 'Berkabut'; icon = '🌫️'; }
+          else if (code >= 51 && code <= 67) { desc = 'Hujan Ringan'; icon = '🌧️'; }
+          else if (code >= 80 && code <= 82) { desc = 'Hujan Deras'; icon = '🌧️'; }
+          else if (code >= 95) { desc = 'Hujan Petir'; icon = '⛈️'; }
+
+          document.getElementById('weather-temp').innerText = `${temp}°C`;
+          document.getElementById('weather-desc').innerText = desc;
+          document.getElementById('weather-icon').innerText = icon;
+        } catch (e) {
+          console.warn('Gagal memuat data cuaca:', e);
+        }
+      };
+
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => getWeatherByCoords(pos.coords.latitude, pos.coords.longitude),
+          () => getWeatherByCoords(defaultLat, defaultLon)
+        );
+      } else {
+        getWeatherByCoords(defaultLat, defaultLon);
+      }
+    }
 
     function getCategoryBadge(keterangan) {
       const ket = (keterangan || '').toLowerCase();
@@ -847,7 +921,7 @@
       const btn = document.getElementById('btn-fullscreen');
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().then(() => {
-          btn.innerText = '🗗 Keluar Fullscreen';
+          btn.innerText = '🗗 Exit';
         }).catch(err => console.warn('Gagal Fullscreen:', err));
       } else {
         if (document.exitFullscreen) {
@@ -866,7 +940,7 @@
     function updateWaktu() {
       const now = new Date();
       document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
-      const opsiTanggal = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      const opsiTanggal = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
       document.getElementById('tanggal').innerText = now.toLocaleDateString('id-ID', opsiTanggal);
       applyThemeByDay();
     }
@@ -885,7 +959,7 @@
       } else {
         elem.className = 'status-koneksi koneksi-offline';
         dot.className = 'dot dot-offline';
-        teks.innerText = 'Koneksi Terputus';
+        teks.innerText = 'Terputus';
       }
     }
 
@@ -896,12 +970,12 @@
       isAudioActive = !isAudioActive;
       const btn = document.getElementById('btn-audio');
       if (isAudioActive) {
-        btn.innerText = '🔊 Suara Aktif';
+        btn.innerText = '🔊 Audio Aktif';
         btn.style.backgroundColor = '#22c55e';
         btn.style.color = '#fff';
         tambahKeAntrianSuara("Sistem suara antrian diaktifkan");
       } else {
-        btn.innerText = '🔇 Suara Mati';
+        btn.innerText = '🔇 Audio';
         btn.style.backgroundColor = '#ef4444';
         btn.style.color = '#fff';
         audioQueue = [];
@@ -931,7 +1005,7 @@
         gridContainer.style.display = 'none';
         promoContainer.style.display = 'flex';
         
-        pageIndicator.innerText = `Halaman ${currentPage + 1} dari ${totalPages} (PROMO)`;
+        pageIndicator.innerText = `Hal ${currentPage + 1}/${totalPages} (PROMO)`;
         pageIndicator.style.display = 'block';
         return;
       }
@@ -941,12 +1015,12 @@
 
       if (cachedActiveList.length === 0) {
         gridContainer.innerHTML = '<div class="info-message">Tidak ada antrian aktif</div>';
-        pageIndicator.innerText = `Halaman 1 dari ${totalPages}`;
+        pageIndicator.innerText = `Hal 1/${totalPages}`;
         pageIndicator.style.display = 'block';
         return;
       }
 
-      pageIndicator.innerText = `Halaman ${currentPage + 1} dari ${totalPages}`;
+      pageIndicator.innerText = `Hal ${currentPage + 1}/${totalPages}`;
       pageIndicator.style.display = 'block';
 
       const startIndex = currentPage * ITEMS_PER_PAGE;
@@ -1108,6 +1182,9 @@
     fetchAntrian();
     setInterval(fetchAntrian, 3500);
     startPageRotation();
+
+    fetchWeather();
+    setInterval(fetchWeather, 30 * 60 * 1000);
   </script>
 </body>
-</html> 
+</html>
