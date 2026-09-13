@@ -3,1185 +3,180 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DISPLAY ANTRIAN BENGKEL MODERN</title>
+  <title>Display Antrian Bengkel</title>
   <style>
-    /* RESET & DASAR LAYOUT */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    html, body {
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-    }
+
     body {
-      background-color: #0b1120;
-      color: #f1f5f9;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      padding: 12px 20px 0 20px;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      transition: background 0.5s ease;
-    }
-
-    /* TEMA WARNA BACKGROUND HARIAN */
-    body.theme-senin { background: linear-gradient(135deg, #f8fafc 80%, #bae6fd 100%); color: #0f172a; }
-    body.theme-selasa { background: linear-gradient(135deg, #09090b 80%, #7f1d1d 100%); color: #f1f5f9; }
-    body.theme-rabu { background: linear-gradient(135deg, #e0f2fe 80%, #ffffff 100%); color: #0f172a; }
-    body.theme-kamis { background: linear-gradient(135deg, #09090b 80%, #1e3a8a 100%); color: #f1f5f9; }
-    body.theme-jumat {
-      background-color: #1a0f00;
-      background-image: 
-        radial-gradient(#d97706 15%, transparent 16%),
-        radial-gradient(#78350f 15%, transparent 16%),
-        linear-gradient(45deg, #291400 25%, transparent 25%, transparent 75%, #291400 75%, #291400),
-        linear-gradient(45deg, #291400 25%, #1a0f00 25%, #1a0f00 75%, #291400 75%, #291400);
-      background-size: 60px 60px, 60px 60px, 30px 30px, 30px 30px;
-      background-position: 0 0, 30px 30px, 0 0, 15px 15px;
-      color: #fef3c7;
-    }
-    body.theme-sabtu { background: linear-gradient(135deg, #bae6fd 80%, #881337 100%); color: #0f172a; }
-    body.theme-minggu { background: #0b1120; color: #f1f5f9; }
-
-    body.theme-senin .header h1, body.theme-rabu .header h1, body.theme-sabtu .header h1 { color: #0284c7; }
-    body.theme-senin .clock, body.theme-rabu .clock, body.theme-sabtu .clock { color: #0f172a; }
-
-    /* HEADER LAYOUT */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      flex-shrink: 0;
-    }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    /* LOGO 3D ANIMATED */
-    .logo-box-animated {
-      background-color: #0b1329;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 6px;
-      padding: 6px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 48px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      perspective: 1000px;
-    }
-
-    .logo-box-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      font-weight: 900;
-      white-space: nowrap;
-      animation: rotateGroup 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-      transform-style: preserve-3d;
-    }
-
-    .logo-circle-badge {
-      width: 32px;
-      height: 32px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      animation: animBadge 10s ease-out infinite;
-      filter: drop-shadow(0px 2px 4px rgba(239, 68, 68, 0.4));
-    }
-
-    .logo-circle-badge svg { width: 100%; height: 100%; }
-
-    .smart-service-group {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      line-height: 1.0;
-      gap: 2px;
-    }
-
-    .word-toyoga {
-      color: #ef4444;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      display: inline-block;
-      opacity: 0;
-      animation: animToyoga 10s ease-out infinite;
-    }
-
-    .word-smart {
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      display: inline-block;
-      opacity: 0;
-      animation: animSmart 10s ease-out infinite;
-    }
-
-    .word-service {
-      color: #38bdf8;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      display: inline-block;
-      opacity: 0;
-      animation: animService 10s ease-out infinite;
-    }
-
-    @keyframes animBadge {
-      0% { opacity: 0; transform: scale(0) rotate(-180deg); }
-      6%, 85% { opacity: 1; transform: scale(1) rotate(0deg); }
-      92%, 100% { opacity: 0; transform: translateY(-15px); }
-    }
-
-    @keyframes animToyoga {
-      0%, 4% { opacity: 0; transform: translateY(20px); }
-      10%, 85% { opacity: 1; transform: translateY(0); }
-      92%, 100% { opacity: 0; transform: translateY(-15px); }
-    }
-
-    @keyframes animSmart {
-      0%, 15% { opacity: 0; transform: translateX(20px); }
-      22%, 85% { opacity: 1; transform: translateX(0); }
-      92%, 100% { opacity: 0; transform: translateY(-15px); }
-    }
-
-    @keyframes animService {
-      0%, 30% { opacity: 0; transform: translateX(20px); }
-      37%, 85% { opacity: 1; transform: translateX(0); }
-      92%, 100% { opacity: 0; transform: translateY(-15px); }
-    }
-
-    @keyframes rotateGroup {
-      0%, 45% { transform: rotateY(0deg); }
-      75% { transform: rotateY(1080deg); }
-      100% { transform: rotateY(1080deg); }
-    }
-
-    .header h1 {
-      font-size: 19px;
-      color: #38bdf8;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-weight: 800;
-      line-height: 1.1;
-    }
-
-    /* SUMMARY BAR */
-    .summary-bar {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      margin-top: 4px;
-    }
-    .summary-item {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 2px 7px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      color: #cbd5e1;
-    }
-    .summary-count {
-      background: #38bdf8;
-      color: #0f172a;
-      padding: 1px 5px;
-      border-radius: 6px;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    /* HEADER RIGHT RE-DESIGN */
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .controls-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .status-koneksi {
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .koneksi-online {
-      background-color: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-      border: 1px solid #22c55e;
-    }
-    .koneksi-offline {
-      background-color: rgba(239, 68, 68, 0.2);
-      color: #f87171;
-      border: 1px solid #ef4444;
-    }
-    .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-    .dot-online { background-color: #22c55e; }
-    .dot-offline { background-color: #ef4444; }
-
-    .page-indicator {
-      background-color: #1e293b;
-      color: #38bdf8;
-      border: 1px solid #334155;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 700;
-      display: none;
-    }
-
-    .btn-header {
-      background-color: #38bdf8;
-      color: #0b1120;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 11px;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .btn-header:hover { background-color: #0284c7; color: #fff; }
-
-    /* INTEGRATED TIME & WEATHER BOX */
-    .time-weather-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(30, 41, 59, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 5px 12px;
-      border-radius: 10px;
-    }
-
-    .weather-container {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding-right: 10px;
-      border-right: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .weather-icon { font-size: 18px; line-height: 1; }
-    .weather-info { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
-    .weather-temp { font-size: 12px; font-weight: 800; color: #38bdf8; }
-    .weather-desc { font-size: 10px; color: #94a3b8; font-weight: 600; }
-
-    .datetime-container {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-    .clock {
-      font-size: 18px;
-      font-weight: 800;
-      color: #ffffff;
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-    }
-    .date-display {
-      font-size: 10px;
-      color: #38bdf8;
-      font-weight: 600;
-      margin-top: 2px;
-    }
-
-    /* KONTAINER UTAMA FLEXIBEL */
-    .main-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      padding: 12px 0;
-      min-height: 0;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* SISTEM TRANSISI HALAMAN */
-    .page-content {
-      width: 100%;
-      height: 100%;
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .page-content.fade-out {
-      opacity: 0;
-      transform: translateY(-12px);
-    }
-
-    .page-content.fade-in-prepare {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: none;
-    }
-
-    .antrian-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    /* CARD STYLING */
-    .card {
-      background: linear-gradient(145deg, #1e293b, #111827);
-      border: 1px solid #334155;
-      border-radius: 14px;
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-      color: #f1f5f9;
-    }
-
-    .card-header { display: flex; justify-content: space-between; align-items: center; }
-    .no-antrian { font-size: 42px; font-weight: 900; color: #ffffff; line-height: 1; }
-    .etal { font-size: 13px; color: #94a3b8; background-color: #334155; padding: 4px 10px; border-radius: 6px; font-weight: 700; }
-    
-    .card-body { margin: 6px 0; }
-    .plat-nomor { font-size: 22px; font-weight: 800; color: #f8fafc; letter-spacing: 1px; }
-    .model-mobil { font-size: 15px; color: #cbd5e1; font-weight: 500; }
-    
-    .card-footer { border-top: 1px solid #334155; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .footer-left { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
-    .footer-right { text-align: right; }
-    .keterangan { font-size: 13px; color: #cbd5e1; font-weight: 500; }
-    .estimasi-text { font-size: 12px; color: #38bdf8; font-weight: 700; display: block; }
-
-    /* BADGES */
-    .badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-    .status-proses { background-color: #f59e0b; color: #000; }
-    .status-tunggu { background-color: #3b82f6; color: #fff; }
-    .status-sparepart { background-color: #ef4444; color: #fff; }
-    .status-default { background-color: #64748b; color: #fff; }
-
-    .badge-cat { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-    .cat-ringan { background-color: #0284c7; color: #ffffff; }
-    .cat-sedang { background-color: #d97706; color: #ffffff; }
-    .cat-berat  { background-color: #dc2626; color: #ffffff; }
-
-    .info-message {
-      grid-column: 1 / -1;
-      grid-row: 1 / -1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #1e293b;
-      border-radius: 14px;
-      color: #94a3b8;
-      font-size: 20px;
-      font-weight: 600;
-    }
-
-    /* KARTU PROMO */
-    .promo-container {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      align-items: stretch;
-    }
-
-    .promo-card {
-      flex: 1;
-      background: linear-gradient(145deg, #1e293b, #0f172a);
-      border: 2px solid #38bdf8;
-      border-radius: 14px;
-      padding: 12px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      color: #f8fafc;
-      overflow: hidden;
-    }
-
-    .promo-header {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 4px;
-      text-align: center;
-    }
-
-    .promo-tag {
-      background-color: #ef4444;
-      color: #fff;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    .promo-header h2 {
-      font-size: 18px;
-      font-weight: 900;
-      color: #38bdf8;
-      margin-top: 4px;
-    }
-
-    .promo-body-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin: 6px 0;
-      flex: 1;
-    }
-
-    .paket-box {
-      background: rgba(30, 41, 59, 0.8);
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 6px 8px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .paket-title {
-      background: #0284c7;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-align: center;
-    }
-    .paket-title.yellow { background: #d97706; }
-
-    .paket-list {
-      font-size: 10px;
-      color: #cbd5e1;
-      margin: 4px 0;
-      padding-left: 12px;
-      line-height: 1.25;
-    }
-
-    .paket-price {
-      font-size: 13px;
-      font-weight: 800;
-      color: #4ade80;
-      text-align: center;
-      background: rgba(34, 197, 94, 0.1);
-      padding: 2px;
-      border-radius: 4px;
-    }
-    .paket-price.yellow-text { color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
-
-    .tebus-murah { text-align: center; justify-content: center; }
-
-    .promo-body-single {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin: 6px 0;
-      flex: 1;
-      justify-content: space-around;
-    }
-
-    .promo-sub {
-      font-size: 11px;
-      color: #cbd5e1;
-      text-align: center;
-      font-style: italic;
-    }
-
-    .price-row { display: flex; gap: 8px; }
-
-    .price-card-item {
-      flex: 1;
-      background: rgba(30, 41, 59, 0.8);
-      border: 1px solid #334155;
-      padding: 6px;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .price-card-item.highlight { border-color: #38bdf8; }
-
-    .price-card-item span { font-size: 10px; color: #94a3b8; display: block; }
-    .price-card-item strong { font-size: 15px; color: #38bdf8; }
-
-    .free-box {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px dashed #ef4444;
-      padding: 6px;
-      border-radius: 8px;
-    }
-
-    .free-box h3 { font-size: 11px; color: #f87171; margin-bottom: 2px; }
-    .free-items { display: flex; gap: 10px; font-size: 11px; font-weight: bold; color: #fef3c7; }
-
-    .benefit-box {
-      background: rgba(15, 23, 42, 0.6);
-      padding: 6px;
-      border-radius: 8px;
-      font-size: 10px;
-    }
-    .benefit-box h4 { color: #38bdf8; margin-bottom: 2px; }
-    .benefit-box ul { padding-left: 12px; color: #cbd5e1; line-height: 1.3; }
-
-    .promo-footer-note {
-      font-size: 10px;
-      color: #64748b;
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 4px;
-    }
-
-    /* RUNNING TEXT */
-    .running-text-container {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+      /* Jarak aman 25px dari bingkai TV agar tidak terpotong (overscan) */
+      padding: 25px !important; 
       width: 100vw;
-      margin-left: -20px;
-      background-color: #0284c7;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Container Utama Layout Display TV */
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 20px;
+    }
+
+    /* Header: Menampilkan Informasi Hari, Tanggal, dan Cuaca */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1e293b;
       color: #ffffff;
-      padding: 6px 0;
-      font-size: 14px;
-      font-weight: 600;
-      flex-shrink: 0;
+      padding: 15px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .header-info {
+      display: flex;
+      gap: 20px;
+      font-size: 1.2rem;
+    }
+
+    /* Konten Antrian */
+    .content {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+    }
+
+    .main-display {
+      flex: 2;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .main-display h2 {
+      font-size: 2rem;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+
+    .current-number {
+      font-size: 6rem;
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .current-loket {
+      font-size: 2.5rem;
+      color: #0f172a;
+      margin-top: 10px;
+    }
+
+    .sidebar-queue {
+      flex: 1;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar-queue h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+
+    .queue-list {
+      list-style: none;
+    }
+
+    .queue-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 1.2rem;
+    }
+
+    /* Footer / Running Text */
+    footer {
+      background: #2563eb;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="header-left">
-      <!-- LOGO KOTAK CSS BERANIMASI 3D -->
-      <div class="logo-box-animated">
-        <div class="logo-box-wrapper">
-          <div class="logo-circle-badge">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#ef4444"/>
-                  <stop offset="100%" stop-color="#991b1b"/>
-                </linearGradient>
-                <linearGradient id="tGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#ffffff"/>
-                  <stop offset="100%" stop-color="#fca5a5"/>
-                </linearGradient>
-              </defs>
-              <circle cx="50" cy="50" r="45" fill="#1e293b" stroke="url(#ringGrad)" stroke-width="6"/>
-              <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/>
-              <path d="M25 32 C 25 28, 75 28, 75 32 C 75 36, 58 36, 58 40 L 58 72 C 58 76, 42 76, 42 72 L 42 40 C 42 36, 25 36, 25 32 Z" fill="url(#tGrad)"/>
-              <path d="M32 70 L22 80 M68 70 L78 80" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
-            </svg>
-          </div>
+  <div class="container">
+    <!-- Header Informasi -->
+    <header>
+      <div class="header-title">BENGKEL MOTOR MAJU JAYA</div>
+      <div class="header-info">
+        <span id="hari-tanggal">Minggu, 13 September 2026</span>
+        <span id="widget-cuaca">Cerah 30°C</span>
+      </div>
+    </header>
 
-          <span class="word-toyoga">TOYOGA</span>
-
-          <div class="smart-service-group">
-            <span class="word-smart">SMART</span>
-            <span class="word-service">SERVICE</span>
-          </div>
-        </div>
+    <!-- Display Utama Antrian -->
+    <div class="content">
+      <div class="main-display">
+        <h2>NOMOR ANTRIAN</h2>
+        <div class="current-number" id="nomor-sekarang">A-005</div>
+        <div class="current-loket" id="loket-sekarang">LOKET / PIT 1</div>
       </div>
 
-      <div>
-        <h1>STATUS PENGERJAAN UNIT</h1>
-        <div class="summary-bar">
-          <div class="summary-item">Total Unit: <span class="summary-count" id="sum-total">0</span></div>
-          <div class="summary-item">Proses: <span class="summary-count" id="sum-proses" style="background:#f59e0b; color:#000;">0</span></div>
-          <div class="summary-item">Tunggu: <span class="summary-count" id="sum-tunggu" style="background:#3b82f6; color:#fff;">0</span></div>
-          <div class="summary-item">Selesai: <span class="summary-count" id="sum-selesai" style="background:#22c55e; color:#fff;">0</span></div>
-        </div>
+      <!-- Daftar Antrian Selanjutnya -->
+      <div class="sidebar-queue">
+        <h3>ANTRIAN SELANJUTNYA</h3>
+        <ul class="queue-list" id="daftar-antrian">
+          <li class="queue-item"><span>A-006</span> <span>Servis Rutin</span></li>
+          <li class="queue-item"><span>A-007</span> <span>Ganti Oli</span></li>
+          <li class="queue-item"><span>A-008</span> <span>Tune Up</span></li>
+        </ul>
       </div>
     </div>
 
-    <div class="header-right">
-      <!-- Kelompok Tombol Control & Status -->
-      <div class="controls-group">
-        <div class="status-koneksi koneksi-online" id="status-koneksi">
-          <span class="dot dot-online" id="dot-koneksi"></span>
-          <span id="teks-koneksi">Terhubung</span>
-        </div>
-        <div class="page-indicator" id="page-indicator">Hal 1/1</div>
-        <button class="btn-header" id="btn-fullscreen" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-        <button class="btn-header" id="btn-audio" onclick="toggleAudio()">🔊 Audio</button>
-      </div>
-
-      <!-- Blok Terpadu Cuaca + Jam -->
-      <div class="time-weather-box">
-        <div class="weather-container" id="weather-widget">
-          <span class="weather-icon" id="weather-icon">🌤️</span>
-          <div class="weather-info">
-            <span class="weather-temp" id="weather-temp">--°C</span>
-            <span class="weather-desc" id="weather-desc">Memuat...</span>
-          </div>
-        </div>
-
-        <div class="datetime-container">
-          <div class="clock" id="jam">00:00:00</div>
-          <div class="date-display" id="tanggal">Senin, 1 Jan 2026</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="main-container">
-    <!-- Grid Antrian Utama -->
-    <div class="antrian-grid page-content" id="data-antrian">
-      <div class="info-message">Memuat data antrian...</div>
-    </div>
-
-    <!-- Halaman Promo Native -->
-    <div class="promo-container page-content" id="promo-container" style="display: none;">
-      
-      <!-- PROMO 1 -->
-      <div class="promo-card">
-        <div class="promo-header">
-          <span class="promo-tag">PROMO BENGKEL</span>
-          <h2>SEPTEMBER CERIA</h2>
-        </div>
-        <div class="promo-body-grid">
-          <div class="paket-box">
-            <div class="paket-title">PAKET 1</div>
-            <ul class="paket-list">
-              <li>Ganti Oli Mesin Shield 4L</li>
-              <li>General Check 23 Item</li>
-              <li>Engine Tune Up</li>
-              <li>Ganti Filter Oli WIX</li>
-              <li>Throttlebody Cleaner & Wash</li>
-              <li>Scanner & Perawatan EPS</li>
-            </ul>
-            <div class="paket-price">Rp 999.000</div>
-          </div>
-
-          <div class="paket-box">
-            <div class="paket-title">PAKET 2</div>
-            <ul class="paket-list">
-              <li>Ganti Oli Shield 4L & Filter WIX</li>
-              <li>Engine Tune Up</li>
-              <li>Service Rem 4 Roda + Kuras</li>
-              <li>Car Wash & Throttle Cleaner</li>
-              <li>EPS & General Check 23 Item</li>
-            </ul>
-            <div class="paket-price">Rp 1.399.000</div>
-          </div>
-
-          <div class="paket-box">
-            <div class="paket-title">PAKET 3</div>
-            <ul class="paket-list">
-              <li>Ganti Oli Shield 4L + Filter WIX</li>
-              <li>Tune Up + Service Rem 4 Roda</li>
-              <li>Filter Bensin & Injector</li>
-              <li>General Check 23 Item + Scanner</li>
-              <li>Car Wash & Perawatan EPS</li>
-            </ul>
-            <div class="paket-price">Rp 1.799.000</div>
-          </div>
-
-          <div class="paket-box tebus-murah">
-            <div class="paket-title yellow">TEBUS MURAH</div>
-            <p style="font-size: 12px; font-weight: bold; margin-top: 4px;">CLEANING AC DEPAN</p>
-            <div class="paket-price yellow-text" style="margin-top: 8px;">Rp 150.000</div>
-          </div>
-        </div>
-        <div class="promo-footer-note">*Harga di atas belum termasuk PPN 11%</div>
-      </div>
-
-      <!-- PROMO 2 -->
-      <div class="promo-card">
-        <div class="promo-header">
-          <span class="promo-tag">PAKET SPESIAL</span>
-          <h2>GANTI OLI + FLUSHING PTT</h2>
-        </div>
-        <div class="promo-body-single">
-          <p class="promo-sub">Mesin Bersih, Tarikan Enteng, Performa Maksimal!</p>
-
-          <div class="price-row">
-            <div class="price-card-item">
-              <span>OLI 10W-40</span>
-              <strong>Rp 999.000</strong>
-            </div>
-            <div class="price-card-item highlight">
-              <span>OLI 5W-30</span>
-              <strong>Rp 1.099.000</strong>
-            </div>
-          </div>
-
-          <div class="free-box">
-            <h3>🎁 GRATIS / FREE:</h3>
-            <div class="free-items">
-              <span>✔ Filter Oli</span>
-              <span>✔ General Check Up</span>
-            </div>
-          </div>
-
-          <div class="benefit-box">
-            <h4>MANFAAT FLUSHING OLI PTT:</h4>
-            <ul>
-              <li>Membersihkan kerak & kotoran di dalam mesin.</li>
-              <li>Melancarkan aliran oli hingga ke celah terkecil.</li>
-              <li>Menjaga performa mesin tetap optimal.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="promo-footer-note">Bengkel Standar Dealer — PT Toyoga Majutama Sejahtera</div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="running-text-container">
-    <marquee behavior="scroll" direction="left" scrollamount="6">
-      Selamat datang di Bengkel Kami • Silakan menunggu panggilan nomor antrian Anda • Jaga kenyamanan dan kebersihan area ruang tunggu • Terima kasih atas kepercayaan Anda.
-    </marquee>
+    <!-- Running Text Informasi -->
+    <footer>
+      <marquee behavior="scroll" direction="left">Selamat datang di Bengkel Maju Jaya — Harap menunggu nomor antrian Anda dipanggil — Utamakan Keselamatan Berkendara</marquee>
+    </footer>
   </div>
 
   <script>
-    const webAppUrl = 'https://script.google.com/macros/s/AKfycbyiGbsGCCLlORL2uD8QJFddUESLX9nWMGJ7E4YnTQkYiWvEQITqr2SiQxOYuhwTNhAF/exec';
-
-    let previousDataMap = new Map();
-    let isAudioActive = false;
-    let isFirstLoad = true;
-    let wakeLock = null;
-
-    let audioQueue = [];
-    let isSpeaking = false;
-    let audioCtx = null;
-
-    let consecutiveErrors = 0;
-    const MAX_ALLOWED_ERRORS = 3;
-
-    const ITEMS_PER_PAGE = 4;
-    const PAGE_INTERVAL = 8000;
-    let currentPage = 0;
-    let totalPages = 1;
-    let pageTimer = null;
-    let cachedActiveList = [];
-
-    // --- FETCH CUACA OTOMATIS (GEOLOCATION + FALLBACK) ---
-    async function fetchWeather() {
-      // Lokasi cadangan (Bekasi) jika lokasi tidak terdeteksi
-      let defaultLat = -6.2383;
-      let defaultLon = 106.9756;
-
-      const getWeatherByCoords = async (lat, lon) => {
-        try {
-          const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
-          const res = await fetch(url);
-          if (!res.ok) return;
-          const data = await res.json();
-          
-          const currentWeather = data.current_weather;
-          const temp = Math.round(currentWeather.temperature);
-          const code = currentWeather.weathercode;
-
-          let desc = 'Cerah';
-          let icon = '☀️';
-
-          if (code === 0) { desc = 'Cerah'; icon = '☀️'; }
-          else if (code >= 1 && code <= 3) { desc = 'Berawan'; icon = '🌤️'; }
-          else if (code === 45 || code === 48) { desc = 'Berkabut'; icon = '🌫️'; }
-          else if (code >= 51 && code <= 67) { desc = 'Hujan Ringan'; icon = '🌧️'; }
-          else if (code >= 80 && code <= 82) { desc = 'Hujan Deras'; icon = '🌧️'; }
-          else if (code >= 95) { desc = 'Hujan Petir'; icon = '⛈️'; }
-
-          document.getElementById('weather-temp').innerText = `${temp}°C`;
-          document.getElementById('weather-desc').innerText = desc;
-          document.getElementById('weather-icon').innerText = icon;
-        } catch (e) {
-          console.warn('Gagal memuat data cuaca:', e);
-        }
-      };
-
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => getWeatherByCoords(pos.coords.latitude, pos.coords.longitude),
-          () => getWeatherByCoords(defaultLat, defaultLon)
-        );
-      } else {
-        getWeatherByCoords(defaultLat, defaultLon);
-      }
-    }
-
-    function getCategoryBadge(keterangan) {
-      const ket = (keterangan || '').toLowerCase();
-      if (ket.includes('turun mesin') || ket.includes('overhaul') || ket.includes('dashboard') || ket.includes('kelistrikan') || ket.includes('matic')) {
-        return { text: 'SERVICE BERAT', icon: '⚙️', class: 'cat-berat' };
-      }
-      if (ket.includes('rem') || ket.includes('kampas') || ket.includes('ac') || ket.includes('kopling') || ket.includes('shock') || ket.includes('kaki') || ket.includes('tierod')) {
-        return { text: 'SERVICE SEDANG', icon: '🛠️', class: 'cat-sedang' };
-      }
-      return { text: 'SERVICE RINGAN', icon: '⚡', class: 'cat-ringan' };
-    }
-
-    function playChime() {
-      return new Promise((resolve) => {
-        try {
-          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-
-          const now = audioCtx.currentTime;
-          const osc1 = audioCtx.createOscillator();
-          const gain1 = audioCtx.createGain();
-          osc1.type = 'sine';
-          osc1.frequency.setValueAtTime(659.25, now);
-          gain1.gain.setValueAtTime(0.3, now);
-          gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-          osc1.connect(gain1);
-          gain1.connect(audioCtx.destination);
-          osc1.start(now);
-          osc1.stop(now + 0.6);
-
-          const osc2 = audioCtx.createOscillator();
-          const gain2 = audioCtx.createGain();
-          osc2.type = 'sine';
-          osc2.frequency.setValueAtTime(523.25, now + 0.3);
-          gain2.gain.setValueAtTime(0.4, now + 0.3);
-          gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
-          osc2.connect(gain2);
-          gain2.connect(audioCtx.destination);
-          osc2.start(now + 0.3);
-          osc2.stop(now + 1.2);
-
-          setTimeout(resolve, 1000);
-        } catch (e) {
-          resolve();
-        }
-      });
-    }
-
-    function tambahKeAntrianSuara(teks) {
-      if (!isAudioActive) return;
-      audioQueue.push(teks);
-      prosesAntrianSuara();
-    }
-
-    async function prosesAntrianSuara() {
-      if (isSpeaking || audioQueue.length === 0 || !isAudioActive) return;
-
-      isSpeaking = true;
-      const teks = audioQueue.shift();
-
-      await playChime();
-
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(teks);
-        utterance.lang = 'id-ID';
-        utterance.rate = 0.95;
-        utterance.pitch = 1.0;
-
-        utterance.onend = () => {
-          isSpeaking = false;
-          setTimeout(prosesAntrianSuara, 400);
-        };
-        utterance.onerror = () => {
-          isSpeaking = false;
-          setTimeout(prosesAntrianSuara, 400);
-        };
-
-        window.speechSynthesis.speak(utterance);
-      } else {
-        isSpeaking = false;
-      }
-    }
-
-    async function requestWakeLock() {
-      try {
-        if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen');
-      } catch (err) {
-        console.warn('Wake Lock tidak aktif:', err.message);
-      }
-    }
-
-    document.addEventListener('visibilitychange', async () => {
-      if (wakeLock !== null && document.visibilityState === 'visible') await requestWakeLock();
-    });
-
-    function toggleFullscreen() {
-      const btn = document.getElementById('btn-fullscreen');
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().then(() => {
-          btn.innerText = '🗗 Exit';
-        }).catch(err => console.warn('Gagal Fullscreen:', err));
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen().then(() => btn.innerText = '⛶ Fullscreen');
-        }
-      }
-    }
-
-    function applyThemeByDay() {
-      const now = new Date();
-      const themeClasses = ['theme-minggu', 'theme-senin', 'theme-selasa', 'theme-rabu', 'theme-kamis', 'theme-jumat', 'theme-sabtu'];
-      document.body.classList.remove(...themeClasses);
-      document.body.classList.add(themeClasses[now.getDay()]);
-    }
-
+    // Contoh Skrip Update Waktu / Data jika diperlukan
     function updateWaktu() {
-      const now = new Date();
-      document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
-      const opsiTanggal = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
-      document.getElementById('tanggal').innerText = now.toLocaleDateString('id-ID', opsiTanggal);
-      applyThemeByDay();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const sekarang = new Date().toLocaleDateString('id-ID', options);
+      document.getElementById('hari-tanggal').innerText = sekarang;
     }
+
     updateWaktu();
-    setInterval(updateWaktu, 1000);
-
-    function setConnectionStatus(isOnline) {
-      const elem = document.getElementById('status-koneksi');
-      const dot = document.getElementById('dot-koneksi');
-      const teks = document.getElementById('teks-koneksi');
-
-      if (isOnline) {
-        elem.className = 'status-koneksi koneksi-online';
-        dot.className = 'dot dot-online';
-        teks.innerText = 'Terhubung';
-      } else {
-        elem.className = 'status-koneksi koneksi-offline';
-        dot.className = 'dot dot-offline';
-        teks.innerText = 'Terputus';
-      }
-    }
-
-    window.addEventListener('online', () => setConnectionStatus(true));
-    window.addEventListener('offline', () => setConnectionStatus(false));
-
-    function toggleAudio() {
-      isAudioActive = !isAudioActive;
-      const btn = document.getElementById('btn-audio');
-      if (isAudioActive) {
-        btn.innerText = '🔊 Audio Aktif';
-        btn.style.backgroundColor = '#22c55e';
-        btn.style.color = '#fff';
-        tambahKeAntrianSuara("Sistem suara antrian diaktifkan");
-      } else {
-        btn.innerText = '🔇 Audio';
-        btn.style.backgroundColor = '#ef4444';
-        btn.style.color = '#fff';
-        audioQueue = [];
-        isSpeaking = false;
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      }
-    }
-
-    function getBadgeClass(status) {
-      const s = status.toLowerCase();
-      if (s.includes('selesai')) return 'status-default';
-      if (s.includes('proses')) return 'status-proses';
-      if (s.includes('sparepart')) return 'status-sparepart';
-      if (s.includes('tunggu')) return 'status-tunggu';
-      return 'status-default';
-    }
-
-    function renderCurrentPage() {
-      const gridContainer = document.getElementById('data-antrian');
-      const promoContainer = document.getElementById('promo-container');
-      const pageIndicator = document.getElementById('page-indicator');
-
-      const antrianPages = Math.ceil(cachedActiveList.length / ITEMS_PER_PAGE) || 1;
-      totalPages = antrianPages + 1;
-
-      if (currentPage === antrianPages) {
-        gridContainer.style.display = 'none';
-        promoContainer.style.display = 'flex';
-        
-        pageIndicator.innerText = `Hal ${currentPage + 1}/${totalPages} (PROMO)`;
-        pageIndicator.style.display = 'block';
-        return;
-      }
-
-      promoContainer.style.display = 'none';
-      gridContainer.style.display = 'grid';
-
-      if (cachedActiveList.length === 0) {
-        gridContainer.innerHTML = '<div class="info-message">Tidak ada antrian aktif</div>';
-        pageIndicator.innerText = `Hal 1/${totalPages}`;
-        pageIndicator.style.display = 'block';
-        return;
-      }
-
-      pageIndicator.innerText = `Hal ${currentPage + 1}/${totalPages}`;
-      pageIndicator.style.display = 'block';
-
-      const startIndex = currentPage * ITEMS_PER_PAGE;
-      const visibleData = cachedActiveList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
-      gridContainer.innerHTML = '';
-      visibleData.forEach(([noAntrian, data]) => {
-        const badgeClass = getBadgeClass(data.statusRaw);
-        const catInfo = getCategoryBadge(data.keterangan);
-        const card = document.createElement('div');
-        
-        card.className = 'card';
-        card.setAttribute('data-id', noAntrian);
-        
-        card.innerHTML = `
-          <div class="card-header">
-            <div class="no-antrian">${noAntrian}</div>
-            <div class="etal">${data.stal}</div>
-          </div>
-          <div class="card-body">
-            <div class="plat-nomor">${data.noPolisi}</div>
-            <div class="model-mobil">${data.modelMobil} ${data.tahun ? '(' + data.tahun + ')' : ''}</div>
-          </div>
-          <div class="card-footer">
-            <div class="footer-left">
-              <span class="badge ${badgeClass}">${data.statusRaw}</span>
-              <span class="badge-cat ${catInfo.class}">${catInfo.icon} ${catInfo.text}</span>
-            </div>
-            <div class="footer-right">
-              <p class="keterangan">${data.keterangan}</p>
-              ${data.estimasi ? `<span class="estimasi-text">⏱ Est: ${data.estimasi}</span>` : ''}
-            </div>
-          </div>
-        `;
-        gridContainer.appendChild(card);
-      });
-    }
-
-    function switchPageWithAnimation() {
-      const gridContainer = document.getElementById('data-antrian');
-      const promoContainer = document.getElementById('promo-container');
-      const activeElem = gridContainer.style.display !== 'none' ? gridContainer : promoContainer;
-
-      activeElem.classList.add('fade-out');
-
-      setTimeout(() => {
-        currentPage = (currentPage + 1) % totalPages;
-        renderCurrentPage();
-
-        const newActiveElem = gridContainer.style.display !== 'none' ? gridContainer : promoContainer;
-
-        newActiveElem.classList.remove('fade-out');
-        newActiveElem.classList.add('fade-in-prepare');
-
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            newActiveElem.classList.remove('fade-in-prepare');
-          }, 50);
-        });
-      }, 600);
-    }
-
-    function startPageRotation() {
-      if (pageTimer) clearInterval(pageTimer);
-      pageTimer = setInterval(switchPageWithAnimation, PAGE_INTERVAL);
-    }
-
-    async function fetchAntrian() {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-        const response = await fetch(webAppUrl, { signal: controller.signal });
-        clearTimeout(timeoutId);
-
-        if (!response.ok) throw new Error('Gagal ambil data');
-        
-        const allRows = await response.json();
-        
-        consecutiveErrors = 0;
-        setConnectionStatus(true);
-
-        if (!allRows || allRows.length <= 1) {
-          cachedActiveList = [];
-          document.getElementById('sum-total').innerText = 0;
-          document.getElementById('sum-proses').innerText = 0;
-          document.getElementById('sum-tunggu').innerText = 0;
-          document.getElementById('sum-selesai').innerText = 0;
-          renderCurrentPage();
-          return;
-        }
-
-        const rows = allRows.slice(1);
-        let activeDataMap = new Map();
-
-        rows.forEach(cols => {
-          if (cols.length >= 6 && cols[0] !== '') {
-            const noAntrian = String(cols[0]).padStart(3, '0');
-            const noPolisi = cols[1] || '';
-            const modelMobil = cols[2] || '';
-            const tahun = cols[3] || '';
-            const stal = cols[4] || '-';
-            const statusRaw = String(cols[5] || '').trim();
-            const keterangan = cols[6] || '-';
-            const estimasi = cols[7] || '';
-
-            activeDataMap.set(noAntrian, { noPolisi, modelMobil, tahun, stal, statusRaw, keterangan, estimasi });
-          }
-        });
-
-        let countTotal = activeDataMap.size;
-        let countProses = 0;
-        let countTunggu = 0;
-        let countSelesai = 0;
-
-        activeDataMap.forEach(data => {
-          const s = data.statusRaw.toUpperCase();
-          if (s.includes('PROSES')) countProses++;
-          else if (s.includes('TUNGGU')) countTunggu++;
-          else if (s.includes('SELESAI')) countSelesai++;
-        });
-
-        document.getElementById('sum-total').innerText = countTotal;
-        document.getElementById('sum-proses').innerText = countProses;
-        document.getElementById('sum-tunggu').innerText = countTunggu;
-        document.getElementById('sum-selesai').innerText = countSelesai;
-
-        if (!isFirstLoad) {
-          activeDataMap.forEach((data, noAntrian) => {
-            const statusLama = previousDataMap.get(noAntrian)?.statusRaw;
-
-            if (statusLama !== undefined && statusLama !== data.statusRaw && data.statusRaw !== '') {
-              const ejaanPlat = data.noPolisi.split('').join(' ');
-              const stalDibaca = data.stal.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-
-              tambahKeAntrianSuara(
-                `Panggilan, antrian nomor ${noAntrian}, mobil ${data.modelMobil}, nomor polisi ${ejaanPlat}, silakan menuju ke ${stalDibaca}, status ${data.statusRaw}`
-              );
-            }
-          });
-        }
-
-        cachedActiveList = Array.from(activeDataMap.entries()).filter(([_, d]) => d.statusRaw.toUpperCase() !== 'SELESAI');
-        previousDataMap = activeDataMap;
-        isFirstLoad = false;
-
-        renderCurrentPage();
-
-      } catch (err) {
-        console.warn('Gagal memperbarui data antrian:', err);
-        consecutiveErrors++;
-        if (consecutiveErrors >= MAX_ALLOWED_ERRORS) {
-          setConnectionStatus(false);
-        }
-      }
-    }
-
-    requestWakeLock();
-    fetchAntrian();
-    setInterval(fetchAntrian, 3500);
-    startPageRotation();
-
-    fetchWeather();
-    setInterval(fetchWeather, 30 * 60 * 1000);
   </script>
+
 </body>
 </html>
